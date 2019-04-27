@@ -1,0 +1,3 @@
+export const PROFILE_LOADING = 'PROFILE_LOADING'
+export const PROFILE_ERROR = 'PROFILE_ERROR'
+export const PROFILE_DATA = 'PROFILE_DATA'
