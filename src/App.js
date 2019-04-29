@@ -54,7 +54,7 @@ class App extends Component {
         window.location.reload()
       },
       onFailure: function(err) {
-        if (err.code === 'UserNotFoundException' || 'NotAuthorizedException') {
+        if (err.code === 'UserNotFoundException' || err.code === 'NotAuthorizedException') {
           notification['error']({
             message: 'Login Message',
             description: 'Fail to login, re-check your username / password',
