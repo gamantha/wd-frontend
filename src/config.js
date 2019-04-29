@@ -15,7 +15,7 @@ const prod = {
     USER_POOL_ID: process.env.REACT_APP_COGNITO_USER_POOL_ID,
     REGION: process.env.REACT_APP_COGNITO_REGION,
   },
-  LOCAL_STORAGE_SECRET: process.env.LOCAL_STORAGE_SECRET,
+  LOCAL_STORAGE_SECRET: process.env.REACT_APP_LOCAL_STORAGE_SECRET,
 }
 
 export default {
