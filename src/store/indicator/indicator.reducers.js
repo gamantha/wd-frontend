@@ -1,8 +1,4 @@
-import {
-  HOTEL_PRICE_RULE_LOADING,
-  HOTEL_PRICE_RULE_ERROR,
-  HOTEL_PRICE_RULE_DATA,
-} from './hotel_price_rule.actionType'
+import { INDICATOR_LOADING, INDICATOR_ERROR, INDICATOR_DATA } from './indicator.actionType'
 
 const initialState = {
   loading: false,
@@ -10,18 +6,18 @@ const initialState = {
     status: false,
     message: null,
   },
-  hotel_price_rules: null,
+  indicators: null,
 }
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
-    case HOTEL_PRICE_RULE_LOADING:
+    case INDICATOR_LOADING:
       return {
         ...state,
         loading: true,
       }
-    case HOTEL_PRICE_RULE_ERROR:
-      console.log('reducers HOTEL_PRICE_RULE_ERROR:', action)
+    case INDICATOR_ERROR:
+      console.log('reducers INDICATOR_ERROR:', action)
       return {
         ...state,
         loading: false,
@@ -30,8 +26,8 @@ const reducers = (state = initialState, action) => {
           message: action.payload,
         },
       }
-    case HOTEL_PRICE_RULE_DATA:
-      console.log('reducers HOTEL_PRICE_RULE_DATA:', action)
+    case INDICATOR_DATA:
+      console.log('reducers INDICATOR_DATA:', action)
       return {
         ...state,
         loading: false,
@@ -39,7 +35,7 @@ const reducers = (state = initialState, action) => {
           status: false,
           message: null,
         },
-        hotel_price_rules: action.payload,
+        indicators: action.payload,
       }
     default:
       return state
