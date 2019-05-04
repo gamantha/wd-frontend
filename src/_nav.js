@@ -24,6 +24,13 @@ const routes = [
     group: 'SystemAdmin',
     location: '59cedfba9ae80d05757f54e9',
   },
+  {
+    name: 'Manage Indicators',
+    url: '/indicators',
+    icon: 'fa fa-users',
+    group: 'SystemAdmin',
+    location: '59cedfba9ae80d05757f54e9',
+  },
   // {
   //   title: true,
   //   name: 'Management API Hotel',
@@ -79,6 +86,5 @@ const routes = [
 export const getRoutes = permissionJson => {
   const permission = new Permissions(permissionJson)
   const items = routes.filter(item => permission.hasRole(item.group, item.location))
-  console.log('items', items)
   return items
 }
