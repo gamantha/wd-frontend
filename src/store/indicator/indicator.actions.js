@@ -1,105 +1,104 @@
-import { HOTEL_LOADING, HOTEL_ERROR, HOTEL_DATA } from './hotel.actionType'
-import { getHotels, createHotel, patchHotel, destroyHotel } from '../../utils/api'
+import { INDICATOR_LOADING, INDICATOR_ERROR, INDICATOR_DATA } from './indicator.actionType'
+import { getIndicators, createIndicator, patchIndicator, destroyIndicator } from '../../utils/api'
 
-const loadingHotel = () => ({
-  type: HOTEL_LOADING,
+const loadingIndicator = () => ({
+  type: INDICATOR_LOADING,
 })
 
-const errorHotel = payload => ({
-  type: HOTEL_ERROR,
+const errorIndicator = payload => ({
+  type: INDICATOR_ERROR,
   payload,
 })
 
-const dataHotel = payload => ({
-  type: HOTEL_DATA,
+const dataIndicator = payload => ({
+  type: INDICATOR_DATA,
   payload,
 })
 
-export const fetchHotel = payload => {
+export const fetchIndicators = payload => {
   return dispatch => {
-    dispatch(loadingHotel)
+    dispatch(loadingIndicator)
     try {
       const { page = 1, limit = 10 } = payload
       return new Promise((resolve, reject) => {
-        getHotels(page, limit)
+        getIndicators(page, limit)
           .then(res => {
             const { data } = res
             const { meta } = data
             if (meta.success !== true) {
-              dispatch(errorHotel(meta.message))
+              dispatch(errorIndicator(meta.message))
               reject(meta.message)
             } else {
-              dispatch(dataHotel(data))
+              dispatch(dataIndicator(data))
               resolve(res)
             }
           })
           .catch(err => {
-            dispatch(errorHotel(err.mesage))
+            dispatch(errorIndicator(err.mesage))
           })
       })
     } catch (error) {
-      dispatch(errorHotel(error.message))
+      dispatch(errorIndicator(error.message))
     }
   }
 }
 
-export const addHotel = payload => {
+export const addIndicator = payload => {
   return dispatch => {
-    dispatch(loadingHotel)
+    dispatch(loadingIndicator)
     try {
       return new Promise((resolve, reject) => {
-        createHotel(payload).then(result => {
+        createIndicator(payload).then(result => {
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
-            dispatch(errorHotel(meta.message))
+            dispatch(errorIndicator(meta.message))
             reject(meta.message)
           } else {
-            dispatch(dataHotel(data))
+            dispatch(dataIndicator(data))
             resolve(result)
           }
         })
       })
     } catch (error) {
-      dispatch(errorHotel(error.message))
+      dispatch(errorIndicator(error.message))
     }
   }
 }
 
-export const updateHotel = (id, payload) => {
+export const updateIndicator = (id, payload) => {
   return dispatch => {
-    dispatch(loadingHotel)
+    dispatch(loadingIndicator)
     try {
-      console.log('on update hotel', payload)
       return new Promise((resolve, reject) => {
-        patchHotel(id, payload).then(result => {
+        patchIndicator(id, payload).then(result => {
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
-            dispatch(errorHotel(meta.message))
+            dispatch(errorIndicator(meta.message))
             reject(meta.message)
           } else {
-            dispatch(dataHotel(data))
+            dispatch(dataIndicator(data))
             resolve(result)
           }
         })
       })
     } catch (error) {
-      dispatch(errorHotel(error.message))
+      dispatch(errorIndicator(error.message))
     }
   }
 }
 
-export const deleteHotel = id => {
+export const deleteIndicator = id => {
   return dispatch => {
-    dispatch(loadingHotel)
+    dispatch(loadingIndicator)
     try {
       return new Promise((resolve, reject) => {
-        destroyHotel(id).then(result => {
+        destroyIndicator(id).then(result => {
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
-            dispatch(errorHotel(meta.message))
+            dispatch(errorIndicator(meta.message))
             reject(meta.message)
           } else {
             resolve(result)
@@ -107,7 +106,7 @@ export const deleteHotel = id => {
         })
       })
     } catch (error) {
-      dispatch(errorHotel(error.message))
+      dispatch(errorIndicator(error.message))
     }
   }
 }

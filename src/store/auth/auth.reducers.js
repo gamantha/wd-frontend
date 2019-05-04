@@ -21,7 +21,6 @@ const reducers = (state = initialState, action) => {
         error: true,
       }
     case AUTH_SUCCESS:
-      console.log('reducers AUTH_SUCCESS: ', action.payload)
       return {
         ...state,
         loading: false,
