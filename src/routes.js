@@ -37,6 +37,11 @@ const Indicators = Loadable({
   loading: Loading,
 })
 
+const ReportTemplates = Loadable({
+  loader: () => import('./containers/ReportTemplate'),
+  loading: Loading,
+})
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
@@ -45,6 +50,7 @@ const routes = [
   { path: '/admins', exact: true, name: 'Admins', component: Admins },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/indicators', exact: true, name: 'Indicators', component: Indicators },
+  { path: '/report_templates', exact: true, name: 'ReportTemplates', component: ReportTemplates },
   // { path: '/users/:id', exact: true, name: 'User Details', component: User },
 ]
 

@@ -68,7 +68,7 @@ export const createUser = async (payload = {}) => {
   return api.post('/auth/register', { ...payload })
 }
 
-// Hotel endpoint
+// Indicator endpoint
 export const getIndicators = async (page = 1, limit = 10) => {
   await verifyJwtExpiration()
   return api.get(`/indicators?page=${page}&limit=${limit}`)
@@ -87,4 +87,25 @@ export const patchIndicator = async (id, payload = {}) => {
 export const destroyIndicator = async id => {
   await verifyJwtExpiration()
   return api.delete(`/indicators/${id}`)
+}
+
+// Report Template endpoint
+export const getReportTemplates = async (page = 1, limit = 10) => {
+  await verifyJwtExpiration()
+  return api.get(`/report_templates?page=${page}&limit=${limit}`)
+}
+
+export const createReportTemplate = async (payload = {}) => {
+  await verifyJwtExpiration()
+  return api.post('/report_templates', { ...payload })
+}
+
+export const patchReportTemplate = async (id, payload = {}) => {
+  await verifyJwtExpiration()
+  return api.patch(`/report_templates/${id}`, { ...payload })
+}
+
+export const destroyReportTemplate = async id => {
+  await verifyJwtExpiration()
+  return api.delete(`/report_templates/${id}`)
 }

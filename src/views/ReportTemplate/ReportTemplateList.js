@@ -8,27 +8,21 @@ export default props => {
     onRefresh,
     onAddItem,
     onEditItem,
-    indicators = {},
+    report_templates = {},
     onChangePage,
     onDeleteItem,
   } = props
   // TODO: links for pagination : need some fix on backend to return total instead - andy-shi88
-  const { data, links } = indicators
+  const { data, links } = report_templates
   const dataSource =
-    indicators !== null && data ? data.map(indicator => ({ ...indicator, key: indicator.id })) : []
+    report_templates !== null && data
+      ? data.map(report_template => ({ ...report_template, key: report_template.id }))
+      : []
 
   const columns = [
     {
       title: 'Id',
       dataIndex: 'id',
-    },
-    {
-      title: 'Name',
-      render: record => (
-        <span>
-          <a href={'#/indicators/' + record.id + '/rooms'}>{record.name}</a>
-        </span>
-      ),
     },
     {
       title: 'Name',
@@ -39,14 +33,10 @@ export default props => {
       dataIndex: 'label',
     },
     {
-      title: 'Unit Label',
-      dataIndex: 'unit_label',
-    },
-    {
       title: 'Action',
       render: record => (
         <span>
-          <a href="#/indicators" onClick={() => onEditItem(record)}>
+          <a href="#/report_templates" onClick={() => onEditItem(record)}>
             <Icon type="edit" theme="outlined" /> Edit
           </a>
           <Divider type="vertical" />
@@ -55,7 +45,7 @@ export default props => {
             onConfirm={() => onDeleteItem(record.id)}
             okText="Yes"
             cancelText="No">
-            <a href="#/indicators" className="ant-btn-danger ant-btn-background-ghost">
+            <a href="#/report_templates" className="ant-btn-danger ant-btn-background-ghost">
               <Icon type="delete" theme="outlined" /> Delete
             </a>
           </Popconfirm>
@@ -66,16 +56,16 @@ export default props => {
   return (
     <div className="animated fadeIn">
       <Card
-        title="Manage indicators"
+        title="Manage report_templates"
         extra={
           <span>
             <a
-              href="#/indicators"
+              href="#/report_templates"
               onClick={() => onRefresh()}
               style={{ marginRight: '10px', color: '#A6A6A6' }}>
               <i className="fa fa-refresh" /> Refresh
             </a>
-            <a href="#/indicators" onClick={() => onAddItem()}>
+            <a href="#/report_templates" onClick={() => onAddItem()}>
               <i className="fa fa-plus-square" /> Create New
             </a>
           </span>
