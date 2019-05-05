@@ -109,3 +109,24 @@ export const destroyReportTemplate = async id => {
   await verifyJwtExpiration()
   return api.delete(`/report_templates/${id}`)
 }
+
+// Report endpoint
+export const getReport = async (page = 1, limit = 10) => {
+  await verifyJwtExpiration()
+  return api.get(`/reports?page=${page}&limit=${limit}`)
+}
+
+export const createReport = async (payload = {}) => {
+  await verifyJwtExpiration()
+  return api.post('/reports', { ...payload })
+}
+
+export const patchReport = async (id, payload = {}) => {
+  await verifyJwtExpiration()
+  return api.patch(`/reports/${id}`, { ...payload })
+}
+
+export const destroyReport = async id => {
+  await verifyJwtExpiration()
+  return api.delete(`/reports/${id}`)
+}
