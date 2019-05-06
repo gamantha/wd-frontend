@@ -1,0 +1,3 @@
+export const REPORT_LOADING = 'REPORT_LOADING'
+export const REPORT_ERROR = 'REPORT_ERROR'
+export const REPORT_DATA = 'REPORT_DATA'

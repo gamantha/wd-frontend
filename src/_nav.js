@@ -38,6 +38,13 @@ const routes = [
     group: 'SystemAdmin',
     location: '59cedfba9ae80d05757f54e9',
   },
+  {
+    name: 'Manage Report',
+    url: '/report',
+    icon: 'fa fa-list-alt',
+    group: 'SystemAdmin',
+    location: '59cedfba9ae80d05757f54e9',
+  },
   // {
   //   title: true,
   //   name: 'Management API Hotel',
