@@ -1,5 +1,6 @@
 import { REPORT_LOADING, REPORT_ERROR, REPORT_DATA } from './report.actionTypes'
 import { getReport, createReport, patchReport, destroyReport } from '../../utils/api'
+import moment from 'moment'
 
 const loadingReport = () => ({
   type: REPORT_LOADING,
@@ -46,9 +47,16 @@ export const fetchReport = payload => {
 export const addReport = payload => {
   return dispatch => {
     dispatch(loadingReport)
+    const { report_date, report_template_id, status } = payload
+    const date = moment(report_date).format('YYYY:MM:DD');
+    const data = {
+      report_date: date,
+      report_template_id,
+      status
+    }
     try {
       return new Promise((resolve, reject) => {
-        createReport(payload).then(result => {
+        createReport(data).then(result => {
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -69,9 +77,16 @@ export const addReport = payload => {
 export const updateReport = (id, payload) => {
   return dispatch => {
     dispatch(loadingReport)
+    const { report_date, report_template_id, status } = payload
+    const date = moment(report_date).format('YYYY:MM:DD');
+    const data = {
+      report_date: date,
+      report_template_id,
+      status
+    }
     try {
       return new Promise((resolve, reject) => {
-        patchReport(id, payload).then(result => {
+        patchReport(id, data).then(result => {
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
