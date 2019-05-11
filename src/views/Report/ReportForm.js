@@ -85,7 +85,7 @@ class ReportForm extends Component {
                   </Form.Item>
                   <Form.Item label="Report Date" {...formItemLayout}>
                     {getFieldDecorator('report_date', {
-                      initialValue: itemData && moment(itemData.report_date, 'YYYY-MM-DD HH:mm:ss'),
+                      initialValue: itemData && moment(itemData.report_date, 'YYYY-MM-DD'),
                       rules: [
                         {
                           type: 'object',
@@ -96,11 +96,11 @@ class ReportForm extends Component {
                       ],
                     })(
                       <DatePicker
-                        showTime
-                        format="YYYY-MM-DD HH:mm:ss"
+                        // showTime
+                        format="YYYY-MM-DD"
                         utcOffset={moment().utcOffset()}
                         initialValue={
-                          (moment(itemData && itemData.report_date), 'YYYY-MM-DD HH:mm:ss')
+                          (moment(itemData && itemData.report_date), 'YYYY-MM-DD')
                         }
                       />
                     )}
