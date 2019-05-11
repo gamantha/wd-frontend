@@ -48,7 +48,7 @@ export const addReport = payload => {
   return dispatch => {
     dispatch(loadingReport)
     const { report_date, report_template_id, status } = payload
-    const date = moment(report_date).format('YYYY:MM:DD');
+    const date = moment(report_date).format('YYYY:MM:DD h:mm:ss', 'LL');
     const data = {
       report_date: date,
       report_template_id,
@@ -78,7 +78,7 @@ export const updateReport = (id, payload) => {
   return dispatch => {
     dispatch(loadingReport)
     const { report_date, report_template_id, status } = payload
-    const date = moment(report_date).format('YYYY:MM:DD');
+    const date = moment(report_date).format('YYYY:MM:DD h:mm:ss');
     const data = {
       report_date: date,
       report_template_id,
