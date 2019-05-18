@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 const api = axios.create({
   baseURL: config.BASE_API_URL,
   timeout: 2000,
-  headers: { access_token: `bearer ${localStorage.getItem('wd-id-authorization')}` },
+  headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
 })
 
 const verifyJwtExpiration = async () => {
@@ -14,7 +14,7 @@ const verifyJwtExpiration = async () => {
   if (decoded && decoded.exp < Date.now() / 1000) {
     try {
       const resp = await refreshToken()
-      localStorage.setItem('wd-id-authorization', resp.data.data.access_token)
+      localStorage.setItem('wd-id-authorization', resp.data.data.Authorization)
       localStorage.setItem('wd-id-retoken', resp.data.data.refresh_token)
       Object.assign(api.defaults, {
         headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
