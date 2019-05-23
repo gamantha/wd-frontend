@@ -1,5 +1,5 @@
 const dev = {
-  BASE_API_URL: 'http://127.0.0.1:8081/api/v1',
+  BASE_API_URL: process.env.REACT_APP_API_BASE_URL,
   COGNITO: {
     CLIENT_ID: process.env.REACT_APP_COGNITO_CLIENT_ID,
     USER_POOL_ID: process.env.REACT_APP_COGNITO_USER_POOL_ID,
@@ -9,7 +9,7 @@ const dev = {
 }
 
 const prod = {
-  BASE_API_URL: 'http://127.0.0.1:3030/api/v1',
+  BASE_API_URL: process.env.REACT_APP_API_BASE_URL,
   COGNITO: {
     CLIENT_ID: process.env.REACT_APP_COGNITO_CLIENT_ID,
     USER_POOL_ID: process.env.REACT_APP_COGNITO_USER_POOL_ID,
