@@ -1,38 +1,40 @@
 import axios from 'axios'
-import config from '../config'
 import jwt from 'jsonwebtoken'
+import config from '../config'
+import { getUserToken } from './cognito'
 
 const api = axios.create({
   baseURL: config.BASE_API_URL,
   timeout: 2000,
-  headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
+  headers: { Authorization: `bearer ${getUserToken()}` },
 })
 
 const verifyJwtExpiration = async () => {
-  const token = localStorage.getItem('wd-id-authorization')
+  const token = getUserToken()
   const decoded = jwt.decode(token)
   if (decoded && decoded.exp < Date.now() / 1000) {
-    try {
-      const resp = await refreshToken()
-      localStorage.setItem('wd-id-authorization', resp.data.data.Authorization)
-      localStorage.setItem('wd-id-retoken', resp.data.data.refresh_token)
-      Object.assign(api.defaults, {
-        headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
-      })
-    } catch (error) {
-      console.log('error refreshing token:', error)
-      localStorage.removeItem('wd-id-authorization')
-      localStorage.removeItem('wd-id-retoken')
-      window.location = '/'
-    }
+    // try {
+    //   const resp = await refreshToken()
+    //   localStorage.setItem('wd-id-authorization', resp.data.data.Authorization)
+    //   localStorage.setItem('wd-id-retoken', resp.data.data.refresh_token)
+    //   Object.assign(api.defaults, {
+    //     headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
+    //   })
+    // } catch (error) {
+    // console.log('error refreshing token:', error)
+    // localStorage.removeItem('wd-id-authorization')
+    // localStorage.removeItem('wd-id-retoken')
+
+    window.location = '/'
+    // }
   }
 }
 
 // TODO:andy-shi88=clean up unused api call
-const refreshToken = () => {
-  const refreshToken = localStorage.getItem('wd-id-retoken')
-  return api.post('/auth/refreshToken', { refresh_token: refreshToken })
-}
+// const refreshToken = () => {
+//   const refreshToken = localStorage.getItem('wd-id-retoken')
+//   return api.post('/auth/refreshToken', { refresh_token: refreshToken })
+// }
 
 // global rest api - get
 export const apiGet = async (endpoint, page = 1, limit = 10) => {

@@ -21,8 +21,7 @@ import DefaultAside from './DefaultAside'
 import DefaultFooter from './DefaultFooter'
 import DefaultHeader from './DefaultHeader'
 
-import config from '../../config'
-import { decryptToObject } from '../../utils/crypto'
+import { getUserProfile } from '../../utils/cognito'
 
 class DefaultLayout extends Component {
   constructor(props) {
@@ -38,10 +37,7 @@ class DefaultLayout extends Component {
   }
 
   componentDidMount() {
-    const userProfile = decryptToObject(
-      localStorage.getItem('wd-id-profile'),
-      config.LOCAL_STORAGE_SECRET
-    )
+    const userProfile = getUserProfile()
     const permissions = userProfile['custom:permissions']
     if (permissions) {
       this.setState({
