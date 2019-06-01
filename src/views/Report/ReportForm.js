@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Form, Input, Button, Alert, Select, DatePicker } from 'antd'
+import { Card, Col, Row, Form, Button, Alert, Select, DatePicker } from 'antd'
 import moment from 'moment'
 
 const Option = Select.Option
@@ -99,9 +99,7 @@ class ReportForm extends Component {
                         // showTime
                         format="YYYY-MM-DD"
                         utcOffset={moment().utcOffset()}
-                        initialValue={
-                          (moment(itemData && itemData.report_date), 'YYYY-MM-DD')
-                        }
+                        initialValue={(moment(itemData && itemData.report_date), 'YYYY-MM-DD')}
                       />
                     )}
                   </Form.Item>
