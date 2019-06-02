@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
-import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js'
+import {
+  CognitoUserPool,
+  CognitoUser,
+  AuthenticationDetails,
+  CookieStorage,
+} from 'amazon-cognito-identity-js'
 import { HashRouter, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { notification } from 'antd'
@@ -13,14 +18,23 @@ import './scss/style.css'
 
 import store from './store'
 import config from './config'
-import { encrypt } from './utils/crypto'
-
 // Containers
 import { DefaultLayout } from './containers'
 import Login from './views/Login'
+
 global.fetch = require('node-fetch')
 
 // Views
+const cookieStorage = new CookieStorage({ domain: config.COOKIES_DOMAIN, secure: false })
+
+const userPool = new CognitoUserPool({
+  UserPoolId: config.COGNITO.USER_POOL_ID,
+  ClientId: config.COGNITO.CLIENT_ID,
+  Region: config.COGNITO.REGION,
+  Storage: cookieStorage,
+})
+
+const curUser = userPool.getCurrentUser()
 
 class App extends Component {
   constructor(props) {
@@ -29,12 +43,10 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
+  // Store logged in user data to cookies
+  storeUserData() {}
+
   handleLogin(itemData) {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.COGNITO.USER_POOL_ID,
-      ClientId: config.COGNITO.CLIENT_ID,
-      Region: config.COGNITO.REGION,
-    })
     const authenticationDetails = new AuthenticationDetails({
       Username: itemData.email,
       Password: itemData.password,
@@ -43,14 +55,11 @@ class App extends Component {
     const userData = {
       Username: itemData.username,
       Pool: userPool,
+      Storage: cookieStorage,
     }
     const cognitoUser = new CognitoUser(userData)
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: function(result) {
-        const idToken = result.getIdToken()
-        localStorage.setItem('wd-id-profile', encrypt(idToken.payload, config.LOCAL_STORAGE_SECRET))
-        localStorage.setItem('wd-id-retoken', result.getRefreshToken())
-        localStorage.setItem('wd-id-authorization', result.getAccessToken().getJwtToken())
         window.location.reload()
       },
       onFailure: function(err) {
@@ -77,10 +86,11 @@ class App extends Component {
         <HashRouter>
           <Switch>
             {/* NOTE: temp develop for getting token */}
-            {!localStorage.getItem('wd-id-authorization') ? (
-              <Login onSubmitLogin={this.handleLogin} />
-            ) : (
+            {curUser &&
+            cookieStorage.getItem(`${curUser.keyPrefix}.${curUser.username}.accessToken`) ? (
               <DefaultLayout />
+            ) : (
+              <Login onSubmitLogin={this.handleLogin} />
             )}
           </Switch>
         </HashRouter>

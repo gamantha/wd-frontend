@@ -6,6 +6,7 @@ const dev = {
     REGION: process.env.REACT_APP_COGNITO_REGION,
   },
   LOCAL_STORAGE_SECRET: process.env.REACT_APP_LOCAL_STORAGE_SECRET,
+  COOKIES_DOMAIN: process.env.REACT_APP_COOKIES_DOMAIN,
 }
 
 const prod = {
@@ -16,6 +17,7 @@ const prod = {
     REGION: process.env.REACT_APP_COGNITO_REGION,
   },
   LOCAL_STORAGE_SECRET: process.env.REACT_APP_LOCAL_STORAGE_SECRET,
+  COOKIES_DOMAIN: process.env.REACT_APP_COOKIES_DOMAIN,
 }
 
 export default {
