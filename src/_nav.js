@@ -2,42 +2,44 @@ import { Permissions } from './utils/permissions'
 
 const routes = [
   {
-    name: 'Dashboard',
+    name: 'Dahsboard',
     url: '/dashboard',
-    icon: 'icon-speedometer',
-  },
-  {
-    name: 'Manage Admins',
-    url: '/admins',
-    icon: 'fa fa-user-secret',
+    icon: 'fa fa-dashboard',
     group: 'SystemAdmin',
     location: '59cedfba9ae80d05757f54e9',
   },
+  // {
+  //   name: 'Manage Admins',
+  //   url: '/admins',
+  //   icon: 'fa fa-user-secret',
+  //   group: 'SystemAdmin',
+  //   location: '59cedfba9ae80d05757f54e9',
+  // },
 
   {
     divider: true,
   },
-  {
-    name: 'Manage Users',
-    url: '/users',
-    icon: 'fa fa-users',
-    group: 'SystemAdmin',
-    location: '59cedfba9ae80d05757f54e9',
-  },
-  {
-    name: 'Manage Indicators',
-    url: '/indicators',
-    icon: 'fa fa-users',
-    group: 'SystemAdmin',
-    location: '59cedfba9ae80d05757f54e9',
-  },
-  {
-    name: 'Manage Report Template',
-    url: '/report_templates',
-    icon: 'fa fa-users',
-    group: 'SystemAdmin',
-    location: '59cedfba9ae80d05757f54e9',
-  },
+  // {
+  //   name: 'Manage Users',
+  //   url: '/users',
+  //   icon: 'fa fa-users',
+  //   group: 'SystemAdmin',
+  //   location: '59cedfba9ae80d05757f54e9',
+  // },
+  // {
+  //   name: 'Manage Indicators',
+  //   url: '/indicators',
+  //   icon: 'fa fa-users',
+  //   group: 'SystemAdmin',
+  //   location: '59cedfba9ae80d05757f54e9',
+  // },
+  // {
+  //   name: 'Manage Report Template',
+  //   url: '/report_templates',
+  //   icon: 'fa fa-users',
+  //   group: 'SystemAdmin',
+  //   location: '59cedfba9ae80d05757f54e9',
+  // },
   {
     name: 'Manage Report',
     url: '/report',
