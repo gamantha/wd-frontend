@@ -1,5 +1,5 @@
-import { REPORT_LOADING, REPORT_ERROR, REPORT_DATA } from './report.actionTypes'
-import { getReport, createReport, patchReport, destroyReport } from '../../utils/api'
+import { REPORT_LOADING, REPORT_ERROR, REPORT_DATA, REPORT_ID } from './report.actionTypes'
+import { getReport, createReport, patchReport, destroyReport, getReportById } from '../../utils/api'
 import moment from 'moment'
 
 const loadingReport = () => ({
@@ -16,13 +16,18 @@ const dataReport = payload => ({
   payload,
 })
 
+const reportId = payload => ({
+  type: REPORT_ID,
+  payload,
+})
+
 export const fetchReport = payload => {
   return dispatch => {
     dispatch(loadingReport)
     try {
-      const { page = 1, limit = 10 } = payload
+      const { page = 1, limit = 10, sort = 'id'} = payload
       return new Promise((resolve, reject) => {
-        getReport(page, limit)
+        getReport(page, limit, sort)
           .then(res => {
             const { data } = res
             const { meta } = data
@@ -31,6 +36,33 @@ export const fetchReport = payload => {
               reject(meta.message)
             } else {
               dispatch(dataReport(data))
+              resolve(res)
+            }
+          })
+          .catch(err => {
+            dispatch(errorReport(err.mesage))
+          })
+      })
+    } catch (error) {
+      dispatch(errorReport(error.message))
+    }
+  }
+}
+
+export const fetchReportById = id => {
+  return dispatch => {
+    dispatch(loadingReport)
+    try {
+      return new Promise((resolve, reject) => {
+        getReportById(id)
+          .then(res => {
+            const { data } = res
+            const { meta } = data
+            if (meta.success !== true) {
+              dispatch(errorReport(meta.message))
+              reject(meta.message)
+            } else {
+              dispatch(reportId(data))
               resolve(res)
             }
           })

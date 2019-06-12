@@ -1,8 +1,4 @@
-import {
-  REPORT_LOADING,
-  REPORT_ERROR,
-  REPORT_DATA,
-} from './report.actionTypes'
+import { REPORT_LOADING, REPORT_ERROR, REPORT_DATA, REPORT_ID } from './report.actionTypes'
 
 const initialState = {
   loading: false,
@@ -11,6 +7,7 @@ const initialState = {
     message: null,
   },
   report: null,
+  reportId: null,
 }
 
 const reducers = (state = initialState, action) => {
@@ -38,6 +35,16 @@ const reducers = (state = initialState, action) => {
           message: null,
         },
         report: action.payload,
+      }
+    case REPORT_ID:
+      return {
+        ...state,
+        loading: false,
+        error: {
+          status: false,
+          message: null,
+        },
+        reportId: action.payload,
       }
     default:
       return state

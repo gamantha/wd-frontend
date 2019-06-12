@@ -95,6 +95,11 @@ export const getReportTemplates = async (page = 1, limit = 10) => {
   return api.get(`/report_templates?page=${page}&limit=${limit}`)
 }
 
+export const getTemplateIndicators = async id => {
+  await verifyJwtExpiration()
+  return api.get(`/report_templates/${id}/indicators`)
+}
+
 export const createReportTemplate = async (payload = {}) => {
   await verifyJwtExpiration()
   return api.post('/report_templates', { ...payload })
@@ -111,9 +116,14 @@ export const destroyReportTemplate = async id => {
 }
 
 // Report endpoint
-export const getReport = async (page = 1, limit = 10) => {
+export const getReport = async (page = 1, limit = 10, $sort = 'id') => {
   await verifyJwtExpiration()
-  return api.get(`/reports?page=${page}&limit=${limit}`)
+  return api.get(`/reports?page=${page}&limit=${limit}&sort=${$sort}`)
+}
+
+export const getReportById = async (id) => {
+  await verifyJwtExpiration()
+  return api.get(`/reports/${id}`)
 }
 
 export const createReport = async (payload = {}) => {

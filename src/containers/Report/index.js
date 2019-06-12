@@ -115,9 +115,23 @@ class Report extends Component {
       })
   }
 
+  handleSort(sorts) {
+    this.props
+      .fetchReport({ page: 1, limit: 10, sort: sorts })
+      .then(res => {
+        console.log(res, 'report fetched')
+      })
+      .catch(err => {
+        notification['warning']({
+          message: 'Warning',
+          description: 'There are some problem when fetching the data, please refresh your browser',
+        })
+      })
+  }
+
   componentDidMount() {
     this.props
-      .fetchReport({ page: 1, limit: 10 })
+      .fetchReport({ page: 1, limit: 10, sort: 'created_at' })
       .then(res => {
         console.log(res, 'report fetched')
       })
@@ -157,7 +171,8 @@ class Report extends Component {
         loading={loading}
         error={error}
         report={report}
-        onRefresh={() => refetch({ page: 1 })}
+        onRefresh={() => refetch({ page: 1, limit: 10 })}
+        onSort = {(sort) => this.handleSort(sort)}
         onAddItem={this.handleAddItem}
         onEditItem={this.handleEditItem}
         onDeleteItem={this.handleDeleteItem}

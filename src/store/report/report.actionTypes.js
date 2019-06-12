@@ -1,3 +1,5 @@
 export const REPORT_LOADING = 'REPORT_LOADING'
 export const REPORT_ERROR = 'REPORT_ERROR'
 export const REPORT_DATA = 'REPORT_DATA'
+export const REPORT_SORT = 'REPORT_SORT'
+export const REPORT_ID = 'REPORT_ID'
