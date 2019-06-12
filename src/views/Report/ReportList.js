@@ -48,12 +48,29 @@ export default props => {
     onSort(e.key)
   }
 
+  const handleDownload = e => {
+    const { key } = e
+    const item = key.split('-')
+    const id = item[0]
+    const downloadType = item[1]
+    console.log('item', id, downloadType)
+  }
+
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="updated_at">Updated At A-Z</Menu.Item>
       <Menu.Item key="-updated_at">Updated At Z-A</Menu.Item>
     </Menu>
   )
+
+  const download = id => {
+    return (
+      <Menu onClick={handleDownload}>
+        <Menu.Item key={id + '-csv'}>Download CSV</Menu.Item>
+        <Menu.Item key={id + '-pdf'}>Download PDF</Menu.Item>
+      </Menu>
+    )
+  }
 
   const columns = [
     {
@@ -87,18 +104,18 @@ export default props => {
     {
       title: 'Action',
       render: record => {
-        console.log("record", record)
+        console.log('record', record)
         return (
           <span>
             <a href={`#/report-indicators/${record.id}`} onClick={() => onEditItem(record)}>
               <Button type="primary" icon="container">
-                Detail
+                {/* Detail */}
               </Button>
               {/* <Icon type="edit" theme="outlined" /> Detail */}
             </a>
             <Divider type="vertical" />
             <a href="#/report" onClick={() => onEditItem(record)}>
-              <Icon type="edit" theme="outlined" /> Edit
+              <Icon type="edit" theme="outlined" />
             </a>
             <Divider type="vertical" />
             <Popconfirm
@@ -107,9 +124,15 @@ export default props => {
               okText="Yes"
               cancelText="No">
               <a href="#/report" className="ant-btn-danger ant-btn-background-ghost">
-                <Icon type="delete" theme="outlined" /> Delete
+                <Icon type="delete" theme="outlined" />
               </a>
             </Popconfirm>
+            <Divider type="vertical" />
+            <Dropdown overlay={download(record.id)} className="ml-2">
+              <Button>
+                <Icon type="download" />
+              </Button>
+            </Dropdown>
           </span>
         )
       },
