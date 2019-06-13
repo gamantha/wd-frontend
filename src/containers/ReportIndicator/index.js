@@ -4,7 +4,7 @@ import { notification } from 'antd'
 import ReportForm from '../../views/Report/ReportIndicatorsForm'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchReportById } from '../../store/report/report.actions'
+import { fetchReportById, addIndicatorValue } from '../../store/report/report.actions'
 
 class Report extends Component {
   constructor(props) {
@@ -20,47 +20,26 @@ class Report extends Component {
   }
 
   handleSubmit(item) {
-    if (!this.state.itemData) {
-      this.props
-        .onCreateItem(item)
-        .then(() => {
-          notification['success']({
-            message: 'Success Message',
-            description: 'Success to create record!',
-            style: { top: '35px' },
-          })
-          this.props.refetch({ page: 1, limit: 10 }).then(() => {
-            this.handleBack()
-          })
+    this.props
+      .addIndicatorValue(item)
+      .then(() => {
+        notification['success']({
+          message: 'Success Message',
+          description: 'Success to save data!',
+          style: { top: '35px' },
         })
-        .catch(res => {
-          notification['warning']({
-            message: 'Validation Message',
-            description: res,
-            style: { top: '35px' },
-          })
+        const {
+          match: { params },
+        } = this.props
+        this.props.fetchReportById(params.id)
+      })
+      .catch(res => {
+        notification['warning']({
+          message: 'Validation Message',
+          description: res,
+          style: { top: '35px' },
         })
-    } else {
-      this.props
-        .onUpdateItem(this.state.itemData.id, item)
-        .then(() => {
-          notification['success']({
-            message: 'Success Message',
-            description: 'Success to update record!',
-            style: { top: '35px' },
-          })
-          this.props.refetch({ page: 1, limit: 10 }).then(() => {
-            this.handleBack()
-          })
-        })
-        .catch(res => {
-          notification['warning']({
-            message: 'Validation Message',
-            description: res,
-            style: { top: '35px' },
-          })
-        })
-    }
+      })
   }
 
   handleBack() {
@@ -116,6 +95,7 @@ const mapDispatchToProps = dispatch => {
     ...bindActionCreators(
       {
         fetchReportById,
+        addIndicatorValue,
       },
       dispatch
     ),
