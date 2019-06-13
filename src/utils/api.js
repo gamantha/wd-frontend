@@ -140,3 +140,18 @@ export const destroyReport = async id => {
   await verifyJwtExpiration()
   return api.delete(`/reports/${id}`)
 }
+
+export const downloadCsv = async id => {
+  await verifyJwtExpiration()
+  return api.get(`/reports/${id}/export/csv`)
+}
+
+export const downloadPdf = async id => {
+  await verifyJwtExpiration()
+  return api.get(`/reports/${id}/export/pdf`)
+}
+
+export const createIndicatorValue = async (payload = {}) => {
+  await verifyJwtExpiration()
+  return api.post('/indicator_values', { ...payload })
+}

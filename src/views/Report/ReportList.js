@@ -26,6 +26,7 @@ export default props => {
     onChangePage,
     onDeleteItem,
     onSort,
+    onDownload,
   } = props
   const { data, links } = report
   const dataSource =
@@ -53,7 +54,7 @@ export default props => {
     const item = key.split('-')
     const id = item[0]
     const downloadType = item[1]
-    console.log('item', id, downloadType)
+    onDownload(id, downloadType)
   }
 
   const menu = (
@@ -107,7 +108,7 @@ export default props => {
         console.log('record', record)
         return (
           <span>
-            <a href={`#/report-indicators/${record.id}`} onClick={() => onEditItem(record)}>
+            <a href={`#/report/${record.id}`} onClick={() => onEditItem(record)}>
               <Button type="primary" icon="container">
                 {/* Detail */}
               </Button>
