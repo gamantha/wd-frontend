@@ -62,7 +62,7 @@ const routes = [
   { path: '/indicators', exact: true, name: 'Indicators', component: Indicators },
   { path: '/report_templates', exact: true, name: 'ReportTemplates', component: ReportTemplates },
   { path: '/report', exact: true, name: 'Report', component: Report },
-  { path: '/report-indicators/:id', exact: true, name: 'Indicators', component: ReportIndicators },
+  { path: '/report/:id', exact: true, name: 'Indicators', component: ReportIndicators },
   // { path: '/users/:id', exact: true, name: 'User Details', component: User },
 ]
 
