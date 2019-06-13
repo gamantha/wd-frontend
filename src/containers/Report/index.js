@@ -9,6 +9,7 @@ import {
   addReport,
   updateReport,
   deleteReport,
+  download,
 } from '../../store/report/report.actions'
 import { fetchReportTemplates } from '../../store/report_template/report_template.actions'
 import ReportList from '../../views/Report/ReportList'
@@ -93,6 +94,28 @@ class Report extends Component {
     }
   }
 
+  handleDownload(id, type) {
+    this.props
+      .download(id, type)
+      .then(() => {
+        console.log('HERE DOWNLOAD OKE')
+
+        notification['success']({
+          message: 'Success Message',
+          description: `Success download file ${type}`,
+          style: { top: '35px' },
+        })
+      })
+      .catch(res => {
+        console.log('HERE DOWNLOAD not Oke', res)
+        notification['warning']({
+          message: 'Validation Message',
+          description: res,
+          style: { top: '35px' },
+        })
+      })
+  }
+
   handleDeleteItem(id) {
     this.props
       .onDeleteItem(id)
@@ -115,9 +138,23 @@ class Report extends Component {
       })
   }
 
+  handleSort(sorts) {
+    this.props
+      .fetchReport({ page: 1, limit: 10, sort: sorts })
+      .then(res => {
+        console.log(res, 'report fetched')
+      })
+      .catch(err => {
+        notification['warning']({
+          message: 'Warning',
+          description: 'There are some problem when fetching the data, please refresh your browser',
+        })
+      })
+  }
+
   componentDidMount() {
     this.props
-      .fetchReport({ page: 1, limit: 10 })
+      .fetchReport({ page: 1, limit: 10, sort: 'created_at' })
       .then(res => {
         console.log(res, 'report fetched')
       })
@@ -154,10 +191,12 @@ class Report extends Component {
 
     return !this.state.showForm ? (
       <ReportList
+        onDownload={(id, type) => this.handleDownload(id, type)}
         loading={loading}
         error={error}
         report={report}
-        onRefresh={() => refetch({ page: 1 })}
+        onRefresh={() => refetch({ page: 1, limit: 10 })}
+        onSort={sort => this.handleSort(sort)}
         onAddItem={this.handleAddItem}
         onEditItem={this.handleEditItem}
         onDeleteItem={this.handleDeleteItem}
@@ -186,6 +225,7 @@ const mapDispatchToProps = dispatch => {
     ...bindActionCreators(
       {
         fetchReport,
+        download,
         fetchReportTemplates,
         onCreateItem: addReport,
         refetch: fetchReport,

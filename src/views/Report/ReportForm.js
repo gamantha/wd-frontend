@@ -103,7 +103,7 @@ class ReportForm extends Component {
                       />
                     )}
                   </Form.Item>
-                  <Form.Item label="Status" {...formItemLayout}>
+                  {/* <Form.Item label="Status" {...formItemLayout}>
                     {getFieldDecorator('status', {
                       initialValue: itemData && itemData.status,
                       rules: [
@@ -119,7 +119,7 @@ class ReportForm extends Component {
                         <Option value="0">InActive</Option>
                       </Select>
                     )}
-                  </Form.Item>
+                  </Form.Item> */}
                 </Col>
               </Row>
 

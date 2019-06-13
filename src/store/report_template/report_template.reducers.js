@@ -2,6 +2,7 @@ import {
   REPORT_TEMPLATE_LOADING,
   REPORT_TEMPLATE_ERROR,
   REPORT_TEMPLATE_DATA,
+  REPORT_TEMPLATE_INDICATORS,
 } from './report_template.actionTypes'
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     message: null,
   },
   report_templates: null,
+  indicators: null,
 }
 
 const reducers = (state = initialState, action) => {
@@ -40,6 +42,17 @@ const reducers = (state = initialState, action) => {
           message: null,
         },
         report_templates: action.payload,
+      }
+    case REPORT_TEMPLATE_INDICATORS:
+      console.log('reducers REPORT_TEMPLATE_INDICATORS:', action)
+      return {
+        ...state,
+        loading: false,
+        error: {
+          status: false,
+          message: null,
+        },
+        indicators: action.payload.data,
       }
     default:
       return state
