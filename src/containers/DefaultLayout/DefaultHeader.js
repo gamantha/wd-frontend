@@ -1,19 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Badge,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap'
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap'
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react'
 
 import logo from '../../assets/img/brand/gamantha-logo.png'
 import logoMini from '../../assets/img/brand/logo-mini.png'
 
+import { AWS } from 'amazon-cognito-identity-js'
 const propTypes = {
   children: PropTypes.node,
 }
@@ -27,8 +20,12 @@ class DefaultHeader extends Component {
   }
 
   handleLogout() {
-    localStorage.removeItem('wd-id-authorization')
-    localStorage.removeItem('wd-id-profile')
+    document.cookie.split(';').forEach(function(c) {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+    })
+
     window.location.reload()
   }
 
