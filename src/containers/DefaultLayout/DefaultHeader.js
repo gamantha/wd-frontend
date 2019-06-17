@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Badge,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap'
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap'
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react'
 
 import logo from '../../assets/img/brand/gamantha-logo.png'
@@ -27,8 +19,12 @@ class DefaultHeader extends Component {
   }
 
   handleLogout() {
-    localStorage.removeItem('wd-id-authorization')
-    localStorage.removeItem('wd-id-profile')
+    document.cookie.split(';').forEach(function(c) {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+    })
+
     window.location.reload()
   }
 

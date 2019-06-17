@@ -13,28 +13,15 @@ const verifyJwtExpiration = async () => {
   const token = getUserToken()
   const decoded = jwt.decode(token)
   if (decoded && decoded.exp < Date.now() / 1000) {
-    // try {
-    //   const resp = await refreshToken()
-    //   localStorage.setItem('wd-id-authorization', resp.data.data.Authorization)
-    //   localStorage.setItem('wd-id-retoken', resp.data.data.refresh_token)
-    //   Object.assign(api.defaults, {
-    //     headers: { Authorization: `bearer ${localStorage.getItem('wd-id-authorization')}` },
-    //   })
-    // } catch (error) {
-    // console.log('error refreshing token:', error)
-    // localStorage.removeItem('wd-id-authorization')
-    // localStorage.removeItem('wd-id-retoken')
-
+    // auto logout after expired : refresh token should be handled by the main app.
+    document.cookie.split(';').forEach(function(c) {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+    })
     window.location = '/'
-    // }
   }
 }
-
-// TODO:andy-shi88=clean up unused api call
-// const refreshToken = () => {
-//   const refreshToken = localStorage.getItem('wd-id-retoken')
-//   return api.post('/auth/refreshToken', { refresh_token: refreshToken })
-// }
 
 // global rest api - get
 export const apiGet = async (endpoint, page = 1, limit = 10) => {
@@ -123,7 +110,7 @@ export const getReport = async (page = 1, limit = 10, $sort = 'id') => {
   return api.get(`/reports?page=${page}&limit=${limit}&sort=${$sort}`)
 }
 
-export const getReportById = async (id) => {
+export const getReportById = async id => {
   await verifyJwtExpiration()
   return api.get(`/reports/${id}`)
 }

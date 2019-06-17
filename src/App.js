@@ -25,7 +25,10 @@ import Login from './views/Login'
 global.fetch = require('node-fetch')
 
 // Views
-const cookieStorage = new CookieStorage({ domain: config.COOKIES_DOMAIN, secure: false })
+const cookieStorage = new CookieStorage({
+  domain: config.COOKIES_DOMAIN,
+  secure: false,
+})
 
 const userPool = new CognitoUserPool({
   UserPoolId: config.COGNITO.USER_POOL_ID,
