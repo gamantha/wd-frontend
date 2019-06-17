@@ -6,7 +6,6 @@ import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/re
 import logo from '../../assets/img/brand/gamantha-logo.png'
 import logoMini from '../../assets/img/brand/logo-mini.png'
 
-import { AWS } from 'amazon-cognito-identity-js'
 const propTypes = {
   children: PropTypes.node,
 }
