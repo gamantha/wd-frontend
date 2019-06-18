@@ -98,8 +98,6 @@ class Report extends Component {
     this.props
       .download(id, type)
       .then(() => {
-        console.log('HERE DOWNLOAD OKE')
-
         notification['success']({
           message: 'Success Message',
           description: `Success download file ${type}`,
@@ -107,7 +105,6 @@ class Report extends Component {
         })
       })
       .catch(res => {
-        console.log('HERE DOWNLOAD not Oke', res)
         notification['warning']({
           message: 'Validation Message',
           description: res,

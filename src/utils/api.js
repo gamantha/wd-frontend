@@ -9,6 +9,13 @@ const api = axios.create({
   headers: { Authorization: `bearer ${getUserToken()}` },
 })
 
+const apiDownload = axios.create({
+  responseType: 'blob', // important
+  baseURL: config.BASE_API_URL,
+  timeout: 2000,
+  headers: { Authorization: `bearer ${getUserToken()}` },
+})
+
 const verifyJwtExpiration = async () => {
   const token = getUserToken()
   const decoded = jwt.decode(token)
@@ -132,12 +139,12 @@ export const destroyReport = async id => {
 
 export const downloadCsv = async id => {
   await verifyJwtExpiration()
-  return api.get(`/reports/${id}/export/csv`)
+  return apiDownload.get(`/reports/${id}/export/csv`)
 }
 
 export const downloadPdf = async id => {
   await verifyJwtExpiration()
-  return api.get(`/reports/${id}/export/pdf`)
+  return apiDownload.get(`/reports/${id}/export/pdf`)
 }
 
 export const createIndicatorValue = async (payload = {}) => {

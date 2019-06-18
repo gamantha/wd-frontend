@@ -83,13 +83,22 @@ export const fetchReport = payload => {
 
 export const download = (id, file) => {
   return dispatch => {
+    const today = new Date()
+    const dd = String(today.getDate()).padStart(2, '0')
+    const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+    const yyyy = today.getFullYear()
     dispatch(isDownload(true))
     try {
       return new Promise((resolve, reject) => {
         if (file === 'csv') {
           downloadCsv(id)
             .then(res => {
-              console.log('RES', res)
+              const url = window.URL.createObjectURL(new Blob([res.data]))
+              const link = document.createElement('a')
+              link.href = url
+              link.setAttribute('download', `Laporan-${id}-${dd}-${mm}-${yyyy}.csv`)
+              document.body.appendChild(link)
+              link.click()
               const { data } = res
               const { meta } = data
               if (meta.success !== true) {
@@ -109,7 +118,12 @@ export const download = (id, file) => {
         } else {
           downloadPdf(id)
             .then(res => {
-              console.log('RES', res)
+              const url = window.URL.createObjectURL(new Blob([res.data]))
+              const link = document.createElement('a')
+              link.href = url
+              link.setAttribute('download', `Laporan-${id}-${dd}-${mm}-${yyyy}.pdf`)
+              document.body.appendChild(link)
+              link.click()
               const { data } = res
               const { meta } = data
               if (meta.success !== true) {
@@ -249,7 +263,7 @@ export const addIndicatorValue = payload => {
     try {
       return new Promise((resolve, reject) => {
         createIndicatorValue(payload).then(result => {
-          console.log("RESULT", result);
+          console.log('RESULT', result)
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -262,7 +276,7 @@ export const addIndicatorValue = payload => {
         })
       })
     } catch (error) {
-      console.log("RESULT", error);
+      console.log('RESULT', error)
       dispatch(errorReport(error.message))
     }
   }
