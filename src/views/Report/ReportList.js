@@ -14,7 +14,8 @@ import {
   Dropdown,
   Menu,
 } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
+// import
 export default props => {
   const {
     loading,
@@ -33,18 +34,26 @@ export default props => {
     report !== null && data ? data.map(report => ({ ...report, key: report.id })) : []
 
   const formatTime = dateTime => {
-    var actionTime = moment(dateTime + '+07:00', 'YYYY-MM-DD HH:mm:ssZ')
-    var timeAgo = actionTime.fromNow()
-    return timeAgo
+    // construct a moment object with UTC-based input
+    let m = moment.utc(dateTime)
+    // convert using the TZDB identifier for US Central time
+    m.tz('Asia/Jakarta')
+    // format output however you desire
+    return m.format('YYYY-MM-DD HH:mm:ss')
   }
 
   const formatStatus = status => {
     return status === 1 ? 'Open' : 'Finish'
   }
 
-  const formatTemplates = template => {
-    return template && template.name
+  const formatTemplatesName = template => {
+    return template && template.template.name
   }
+
+  // const formatTemplatesType = template => {
+  //   return template && template.template.report_type.toUpperCase()
+  // }
+
   const handleMenuClick = e => {
     onSort(e.key)
   }
@@ -75,10 +84,17 @@ export default props => {
 
   const columns = [
     {
-      title: 'Report Type',
-      dataIndex: 'template',
-      render: template => formatTemplates(template),
+      title: 'Report Name',
+      dataIndex: 'name',
     },
+    {
+      title: 'Report Template',
+      render: template => formatTemplatesName(template),
+    },
+    // {
+    //   title: 'Report Type',
+    //   render: template => formatTemplatesType(template),
+    // },
     {
       title: 'Report Date',
       dataIndex: 'report_date',
@@ -88,10 +104,10 @@ export default props => {
       dataIndex: 'status',
       render: status => formatStatus(status),
     },
-    {
-      title: 'Author',
-      dataIndex: 'author_id',
-    },
+    // {
+    //   title: 'Author',
+    //   dataIndex: 'author_id',
+    // },
     {
       title: 'Created At',
       dataIndex: 'created_at',

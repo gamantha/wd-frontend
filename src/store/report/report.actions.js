@@ -179,12 +179,12 @@ export const fetchReportById = id => {
 export const addReport = payload => {
   return dispatch => {
     dispatch(loadingReport)
-    const { report_date, report_template_id, status } = payload
+    const { report_date, report_template_id, name } = payload
     const date = moment(report_date).format('YYYY:MM:DD h:mm:ss', 'LL')
     const data = {
       report_date: date,
       report_template_id,
-      status,
+      name,
     }
     try {
       return new Promise((resolve, reject) => {
@@ -209,12 +209,13 @@ export const addReport = payload => {
 export const updateReport = (id, payload) => {
   return dispatch => {
     dispatch(loadingReport)
-    const { report_date, report_template_id, status } = payload
+    const { report_date, report_template_id, name } = payload
     const date = moment(report_date).format('YYYY:MM:DD h:mm:ss')
     const data = {
       report_date: date,
       report_template_id,
-      status,
+      status: 1,
+      name,
     }
     try {
       return new Promise((resolve, reject) => {

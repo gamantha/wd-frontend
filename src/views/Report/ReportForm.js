@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Form, Button, Alert, Select, DatePicker } from 'antd'
+import { Card, Col, Row, Form, Button, Alert, Select, DatePicker, Input } from 'antd'
 import moment from 'moment'
 
 const Option = Select.Option
@@ -29,6 +29,9 @@ const tailFormItemLayout = {
 }
 
 class ReportForm extends Component {
+  state = {
+    reportType: 'none',
+  }
   constructor(props) {
     super(props)
     this.form = props.form
@@ -45,11 +48,36 @@ class ReportForm extends Component {
     })
   }
 
+  handleReportType(type) {
+    this.setState({ reportType: type })
+  }
+
+  formatReportTemplates() {
+    const { reportTemplates } = this.props
+    const { data } = reportTemplates || {}
+    const { reportType } = this.state
+
+    const filterTemplate = data && data.filter(item => item.report_type === reportType)
+
+    return (
+      filterTemplate &&
+      filterTemplate.map(item => {
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.name}
+          </Option>
+        )
+      })
+    )
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { loading, error, onBack, itemData, reportTemplates } = this.props
     const { data } = reportTemplates
 
+    console.log('STATE', this.state)
+    console.log('ITEMDATA', this.formatReportTemplates())
     return (
       <div className="animated fadeIn">
         <Card title={!itemData ? 'Create report' : 'Edit report'}>
@@ -59,27 +87,54 @@ class ReportForm extends Component {
             <Form onSubmit={this.handleSubmit}>
               <Row>
                 <Col span="12">
-                  <Form.Item label="Report Template" {...formItemLayout}>
-                    {getFieldDecorator('report_template_id', {
-                      initialValue: itemData && itemData.report_template_id,
+                  <Form.Item label="Name" {...formItemLayout}>
+                    {getFieldDecorator('name', {
+                      initialValue: itemData && itemData.name,
                       rules: [
                         {
-                          type: 'number',
                           required: true,
-                          message: 'Please input report template!',
+                          message: 'Please input report name!',
                           whitespace: true,
                         },
                       ],
+                    })(<Input placeholder="Input the report name.." />)}
+                  </Form.Item>
+                  <Form.Item label="Report Type" {...formItemLayout}>
+                    {getFieldDecorator('report_type', {
+                      initialValue: itemData && itemData.report_template_id,
+                      // rules: [
+                      //   {
+                      //     message: 'Please input report type!',
+                      //     whitespace: true,
+                      //   },
+                      // ],
                     })(
-                      <Select initialValue={itemData && itemData.report_template_id}>
-                        {data &&
-                          data.map(item => {
-                            return (
-                              <Option key={item.id} value={item.id}>
-                                {item.name}
-                              </Option>
-                            )
-                          })}
+                      <Select
+                        onChange={type => this.handleReportType(type)}
+                        initialValue={itemData && itemData.report_template_id}
+                        disabled={itemData}>
+                        <Option value="monthly">Monthly</Option>
+                        <Option value="quarterly">Quarterly</Option>
+                        <Option value="annually">Annually</Option>
+                        <Option value="other">Other</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item label="Report Template" {...formItemLayout}>
+                    {getFieldDecorator('report_template_id', {
+                      initialValue: itemData && itemData.report_template_id,
+                      // rules: [
+                      //   {
+                      //     type: 'number',
+                      //     message: 'Please input report template!',
+                      //     whitespace: true,
+                      //   },
+                      // ],
+                    })(
+                      <Select
+                        initialValue={itemData && itemData.report_template_id}
+                        disabled={itemData}>
+                        {this.formatReportTemplates()}
                       </Select>
                     )}
                   </Form.Item>
