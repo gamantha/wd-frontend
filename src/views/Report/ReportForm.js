@@ -52,12 +52,17 @@ class ReportForm extends Component {
     this.setState({ reportType: type })
   }
 
-  formatReportTemplates() {
+  formatReportTemplates(id = '') {
     const { reportTemplates } = this.props
-    const { data } = reportTemplates || {}
+    const { data, itemData } = reportTemplates || {}
     const { reportType } = this.state
 
-    const filterTemplate = data && data.filter(item => item.report_type === reportType)
+    let filterTemplate
+    if (!id) {
+      filterTemplate = data && data.filter(item => item.report_type === reportType)
+    } else {
+      filterTemplate = data && data.filter(item => item.id === id)
+    }
 
     return (
       filterTemplate &&
@@ -101,7 +106,7 @@ class ReportForm extends Component {
                   </Form.Item>
                   <Form.Item label="Report Type" {...formItemLayout}>
                     {getFieldDecorator('report_type', {
-                      initialValue: itemData && itemData.report_template_id,
+                      initialValue: itemData && itemData.template.report_type,
                       // rules: [
                       //   {
                       //     message: 'Please input report type!',
@@ -111,7 +116,7 @@ class ReportForm extends Component {
                     })(
                       <Select
                         onChange={type => this.handleReportType(type)}
-                        initialValue={itemData && itemData.report_template_id}
+                        initialValue={itemData && itemData.template.report_type}
                         disabled={itemData}>
                         <Option value="monthly">Monthly</Option>
                         <Option value="quarterly">Quarterly</Option>
@@ -122,7 +127,7 @@ class ReportForm extends Component {
                   </Form.Item>
                   <Form.Item label="Report Template" {...formItemLayout}>
                     {getFieldDecorator('report_template_id', {
-                      initialValue: itemData && itemData.report_template_id,
+                      initialValue: itemData && itemData.template.id,
                       // rules: [
                       //   {
                       //     type: 'number',
@@ -131,10 +136,10 @@ class ReportForm extends Component {
                       //   },
                       // ],
                     })(
-                      <Select
-                        initialValue={itemData && itemData.report_template_id}
-                        disabled={itemData}>
-                        {this.formatReportTemplates()}
+                      <Select initialValue={itemData && itemData.template.id} disabled={itemData}>
+                        {!itemData
+                          ? this.formatReportTemplates()
+                          : this.formatReportTemplates(itemData.template.id)}
                       </Select>
                     )}
                   </Form.Item>
