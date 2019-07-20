@@ -54,7 +54,7 @@ class ReportForm extends Component {
 
   formatReportTemplates(id = '') {
     const { reportTemplates } = this.props
-    const { data, itemData } = reportTemplates || {}
+    const { data } = reportTemplates || {}
     const { reportType } = this.state
 
     let filterTemplate
@@ -78,11 +78,8 @@ class ReportForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { loading, error, onBack, itemData, reportTemplates } = this.props
-    const { data } = reportTemplates
-
-    console.log('STATE', this.state)
-    console.log('ITEMDATA', this.formatReportTemplates())
+    const { loading, error, onBack, itemData } = this.props
+    console.log('itemdata', this.props)
     return (
       <div className="animated fadeIn">
         <Card title={!itemData ? 'Create report' : 'Edit report'}>
@@ -107,34 +104,38 @@ class ReportForm extends Component {
                   <Form.Item label="Report Type" {...formItemLayout}>
                     {getFieldDecorator('report_type', {
                       initialValue: itemData && itemData.template.report_type,
-                      // rules: [
-                      //   {
-                      //     message: 'Please input report type!',
-                      //     whitespace: true,
-                      //   },
-                      // ],
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Please input report type!',
+                          whitespace: true,
+                        },
+                      ],
                     })(
-                      <Select
-                        onChange={type => this.handleReportType(type)}
-                        initialValue={itemData && itemData.template.report_type}
-                        disabled={itemData}>
-                        <Option value="monthly">Monthly</Option>
-                        <Option value="quarterly">Quarterly</Option>
-                        <Option value="annually">Annually</Option>
-                        <Option value="other">Other</Option>
-                      </Select>
+                      <section>
+                        <Select
+                          onChange={type => this.handleReportType(type)}
+                          initialValue={itemData && itemData.template.report_type}
+                          disabled={itemData}>
+                          <Option value="monthly">Monthly</Option>
+                          <Option value="quarterly">Quarterly</Option>
+                          <Option value="annually">Annually</Option>
+                          <Option value="other">Other</Option>
+                        </Select>
+                      </section>
                     )}
                   </Form.Item>
                   <Form.Item label="Report Template" {...formItemLayout}>
                     {getFieldDecorator('report_template_id', {
                       initialValue: itemData && itemData.template.id,
-                      // rules: [
-                      //   {
-                      //     type: 'number',
-                      //     message: 'Please input report template!',
-                      //     whitespace: true,
-                      //   },
-                      // ],
+                      rules: [
+                        {
+                          required: true,
+                          type: 'number',
+                          message: 'Please input report template!',
+                          whitespace: true,
+                        },
+                      ],
                     })(
                       <Select initialValue={itemData && itemData.template.id} disabled={itemData}>
                         {!itemData

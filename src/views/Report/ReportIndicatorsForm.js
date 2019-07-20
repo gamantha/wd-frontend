@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Form, Input, Button, Alert, Select, Empty } from 'antd'
+import { Card, Col, Row, Form, Input, Button, Alert } from 'antd'
 
 const formItemLayout = {}
 
@@ -117,7 +117,7 @@ class ReportForm extends Component {
               ) : (
                 <Row>
                   <Col span={12} offset={8}>
-                    <Empty description={<span>Tidak ada indicator di laporan ini</span>} />
+                    <span>Tidak ada indicator di laporan ini</span>
                   </Col>
                 </Row>
               )}
