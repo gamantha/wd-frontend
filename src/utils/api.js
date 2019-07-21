@@ -1,7 +1,7 @@
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import config from '../config'
-import { getUserToken } from './cognito'
+import { getUserToken, getCurrentUser, getUserRefreshToken } from './cognito'
 
 const api = axios.create({
   baseURL: config.BASE_API_URL,
@@ -16,17 +16,37 @@ const apiDownload = axios.create({
   headers: { Authorization: `bearer ${getUserToken()}` },
 })
 
+const refreshToken = async token => {
+  return new Promise(async (resolve, reject) => {
+    const user = getCurrentUser()
+    return user.refreshSession(token, async (err, res) => {
+      await console.log('res', res)
+      if (err) {
+        reject(err)
+      } else {
+        // update cookiestorage: how?
+        resolve(res)
+      }
+    })
+  })
+}
+
 const verifyJwtExpiration = async () => {
   const token = getUserToken()
   const decoded = jwt.decode(token)
+
   if (decoded && decoded.exp < Date.now() / 1000) {
-    // auto logout after expired : refresh token should be handled by the main app.
-    document.cookie.split(';').forEach(function(c) {
-      document.cookie = c
-        .replace(/^ +/, '')
-        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
-    })
-    window.location = '/'
+    try {
+      await refreshToken(getUserRefreshToken())
+      console.log('token refreshed')
+    } catch (error) {
+      document.cookie.split(';').forEach(function(c) {
+        document.cookie = c
+          .replace(/^ +/, '')
+          .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+      })
+      window.location = '/'
+    }
   }
 }
 
