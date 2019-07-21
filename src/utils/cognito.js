@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { CognitoUserPool, CookieStorage } from 'amazon-cognito-identity-js'
+import { CognitoUserPool, CookieStorage, CognitoRefreshToken } from 'amazon-cognito-identity-js'
 import config from '../config'
 
 const cookieStorage = new CookieStorage({ domain: config.COOKIES_DOMAIN, secure: false })
@@ -15,6 +15,14 @@ const curUser = userPool.getCurrentUser()
 
 export const getUserToken = () => {
   return curUser && getCookieField('accessToken')
+}
+
+export const getUserRefreshToken = () => {
+  return curUser && new CognitoRefreshToken({ RefreshToken: getCookieField('refreshToken') })
+}
+
+export const getCurrentUser = () => {
+  return curUser
 }
 
 export const getUserProfile = () => {
