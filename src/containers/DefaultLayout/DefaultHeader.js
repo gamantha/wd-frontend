@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap'
-import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react'
+import { DropdownItem, Nav } from 'reactstrap'
+import { AppNavbarBrand, AppSidebarToggler } from '@coreui/react'
 
 import logo from '../../assets/img/brand/gamantha-logo.png'
 import logoMini from '../../assets/img/brand/logo-mini.png'
@@ -29,10 +29,6 @@ class DefaultHeader extends Component {
   }
 
   render() {
-    // eslint-disable-next-line
-    // console.log('default header props:', this.props)
-    const { profile } = this.props
-
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -42,31 +38,9 @@ class DefaultHeader extends Component {
         />
 
         <Nav className="ml-auto" navbar>
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-bell" />
-              <Badge pill color="danger">
-                5
-              </Badge>
-            </NavLink>
-          </NavItem> */}
-          <AppHeaderDropdown direction="down">
-            <DropdownToggle nav>
-              <img src={'assets/img/avatars/user.png'} className="img-avatar" alt="profile" />
-              <span style={{ marginRight: '20px' }}>{profile && profile.username}</span>
-            </DropdownToggle>
-            <DropdownMenu right style={{ right: 'auto' }}>
-              {/* <DropdownItem>
-                <i className="fa fa-wrench" /> Settings
-              </DropdownItem> */}
-              {/* <DropdownItem>
-                <i className="fa fa-user" /> Profile
-              </DropdownItem> */}
-              <DropdownItem onClick={() => this.handleLogout()}>
-                <i className="fa fa-lock" /> Logout
-              </DropdownItem>
-            </DropdownMenu>
-          </AppHeaderDropdown>
+          <DropdownItem onClick={() => this.handleLogout()}>
+            <i className="fa fa-lock" /> Logout
+          </DropdownItem>
         </Nav>
       </React.Fragment>
     )
