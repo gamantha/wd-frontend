@@ -19,6 +19,7 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
     "@coreui/react": "^2.0.5",
+    "@react-pdf/renderer": "^1.6.4",
     "amazon-cognito-identity-js": "^3.0.11",
     "antd": "^3.10.3",
     "axios": "^0.18.0",
