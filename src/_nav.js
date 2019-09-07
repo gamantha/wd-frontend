@@ -2,7 +2,7 @@ import { Permissions } from './utils/permissions'
 
 const routes = [
   {
-    name: 'Dahsboard',
+    name: 'Dashboard',
     url: '/dashboard',
     icon: 'fa fa-dashboard',
     group: 'SystemAdmin',
