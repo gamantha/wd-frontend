@@ -123,7 +123,7 @@ export default props => {
       render: record => {
         return (
           <span>
-            <a href={`#/report/${record.id}`} onClick={() => onEditItem(record)}>
+            <a href={`#/report/indicators/${record.id}`} onClick={() => onEditItem(record)}>
               <Button type="primary" icon="container">
                 {/* Detail */}
               </Button>

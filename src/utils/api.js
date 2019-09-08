@@ -5,7 +5,7 @@ import { getUserToken, getCurrentUser, getUserRefreshToken } from './cognito'
 
 const api = axios.create({
   baseURL: config.BASE_API_URL,
-  timeout: 2000,
+  timeout: 15000,
   headers: { Authorization: `bearer ${getUserToken()}` },
 })
 

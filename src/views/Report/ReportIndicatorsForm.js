@@ -60,7 +60,6 @@ class ReportForm extends Component {
     const { loading, error, itemData } = this.props
     const { indicators, status } = itemData || []
     const statusReport = status === 1 ? false : true
-    console.log('ITEM', statusReport)
     return (
       <div className="animated fadeIn">
         <Card title="Form Report">
@@ -75,7 +74,7 @@ class ReportForm extends Component {
                       return (
                         <Row key={item.id}>
                           <Col span={12}>
-                            <Form.Item label={item.name} {...formItemLayout}>
+                            <Form.Item label={item.label} {...formItemLayout}>
                               {getFieldDecorator(item.id.toString(), {
                                 initialValue:
                                   item && item.indicator_value && item.indicator_value.value,
