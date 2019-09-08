@@ -56,7 +56,6 @@ class ReportForm extends Component {
     const { reportTemplates } = this.props
     const { data } = reportTemplates || {}
     const { reportType } = this.state
-
     let filterTemplate
     if (!id) {
       filterTemplate = data && data.filter(item => item.report_type === reportType)
@@ -113,8 +112,7 @@ class ReportForm extends Component {
                       <Select
                         onChange={type => this.handleReportType(type)}
                         initialValue={itemData && itemData.template.report_type}
-                        disabled={itemData}
-                        value={this.state.reportType}>
+                        disabled={itemData}>
                         <Option value="monthly">Monthly</Option>
                         <Option value="quarterly">Quarterly</Option>
                         <Option value="annually">Annually</Option>
