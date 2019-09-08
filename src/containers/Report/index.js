@@ -166,7 +166,7 @@ class Report extends Component {
     this.props
       .fetchReportTemplates({ page: 1, limit: 10 })
       .then(res => {
-        console.log(res, 'report template fetched')
+        console.log(res.data.data, 'report template fetched')
       })
       .catch(err => {
         notification['warning']({
