@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Bar } from 'react-chartjs-2'
 import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap'
 
 //Random Numbers
@@ -18,28 +19,44 @@ for (var i = 0; i <= elements; i++) {
 }
 
 class Dashboard extends Component {
+  state = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: 'Jumlah anak usia (0 - 12) bulan',
+        backgroundColor: 'rgba(0,255,255,0.2)',
+        borderColor: 'rgba(70,130,180,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(0,206,209,0.4)',
+        hoverBorderColor: 'rgba(255,99,132,1)',
+        data: [65, 59, 80, 81, 56, 55, 40],
+      },
+      {
+        label: 'Anak menerima imunisasi BCG Hepatitis b, dpt, dan polio',
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+        hoverBorderColor: 'rgba(255,99,132,1)',
+        data: [65, 59, 80, 81, 56, 55, 40],
+      },
+    ],
+  }
   constructor(props) {
     super(props)
-
-    this.toggle = this.toggle.bind(this)
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this)
-
-    this.state = {
-      dropdownOpen: false,
-      radioSelected: 2,
-    }
-  }
-
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    })
-  }
-
-  onRadioBtnClick(radioSelected) {
-    this.setState({
-      radioSelected: radioSelected,
-    })
   }
 
   render() {
@@ -48,9 +65,16 @@ class Dashboard extends Component {
         <Row>
           <Col>
             <Card>
-              <CardHeader>Selamat Datang</CardHeader>
+              <CardHeader>Chart</CardHeader>
               <CardBody>
-                <h4>Selamat datang di Apps WD integration management system</h4>
+                <Row>
+                  <Col xs="12" md="12" xl="12">
+                    <Row>
+                      <Bar data={this.state} />
+                    </Row>
+                  </Col>
+                </Row>
+                <br />
               </CardBody>
             </Card>
           </Col>
