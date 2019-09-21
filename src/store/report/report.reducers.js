@@ -15,12 +15,11 @@ const reducers = (state = initialState, action) => {
     case REPORT_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: action.status,
       }
     case REPORT_ERROR:
       return {
         ...state,
-        loading: false,
         error: {
           status: true,
           message: action.payload,
@@ -29,7 +28,6 @@ const reducers = (state = initialState, action) => {
     case REPORT_DATA:
       return {
         ...state,
-        loading: false,
         error: {
           status: false,
           message: null,
@@ -39,7 +37,6 @@ const reducers = (state = initialState, action) => {
     case REPORT_ID:
       return {
         ...state,
-        loading: false,
         error: {
           status: false,
           message: null,
