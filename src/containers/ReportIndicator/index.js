@@ -15,7 +15,6 @@ class Report extends Component {
     this.state = {
       showForm: false,
       itemData: null,
-      isLoading: true,
     }
 
     this.handleBack = this.handleBack.bind(this)
@@ -59,11 +58,8 @@ class Report extends Component {
     } = this.props
     this.props
       .fetchReportById(params.id)
-      .then(res => {
-        this.setState({ isLoading: false })
-      })
+      .then(res => {})
       .catch(err => {
-        this.setState({ isLoading: false })
         notification['warning']({
           message: 'Warning',
           description: 'There are some problem when fetching the data, please refresh your browser',
@@ -74,9 +70,8 @@ class Report extends Component {
   render() {
     const {
       props: {
-        indicators: { data },
+        indicators: { data, isLoading },
       },
-      state: { isLoading },
     } = this
 
     if (isLoading) {
@@ -100,6 +95,7 @@ class Report extends Component {
 const mapStateToProps = state => {
   return {
     indicators: state.report.reportId || [],
+    isLoading: state.report.loading,
   }
 }
 

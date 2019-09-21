@@ -19,8 +19,9 @@ import {
 } from '../../utils/api'
 import moment from 'moment'
 
-const loadingReport = () => ({
+const loadingReport = status => ({
   type: REPORT_LOADING,
+  status,
 })
 
 const errorReport = payload => ({
@@ -55,12 +56,14 @@ const isDownload = payload => ({
 
 export const fetchReport = payload => {
   return dispatch => {
-    dispatch(loadingReport)
+    dispatch(loadingReport(true))
     try {
       const { page = 1, limit = 10, sort = 'id' } = payload
       return new Promise((resolve, reject) => {
         getReport(page, limit, sort)
           .then(res => {
+            dispatch(loadingReport(false))
+
             const { data } = res
             const { meta } = data
             if (meta.success !== true) {
@@ -72,6 +75,7 @@ export const fetchReport = payload => {
             }
           })
           .catch(err => {
+            dispatch(loadingReport(false))
             dispatch(errorReport(err.mesage))
           })
       })
@@ -151,11 +155,13 @@ export const download = (id, file) => {
 
 export const fetchReportById = id => {
   return dispatch => {
-    dispatch(loadingReport)
+    dispatch(loadingReport(true))
     try {
       return new Promise((resolve, reject) => {
         getReportById(id)
           .then(res => {
+            dispatch(loadingReport(false))
+
             const { data } = res
             const { meta } = data
             if (meta.success !== true) {
@@ -167,6 +173,7 @@ export const fetchReportById = id => {
             }
           })
           .catch(err => {
+            dispatch(loadingReport(false))
             dispatch(errorReport(err.mesage))
           })
       })
@@ -178,7 +185,7 @@ export const fetchReportById = id => {
 
 export const addReport = payload => {
   return dispatch => {
-    dispatch(loadingReport)
+    dispatch(loadingReport(true))
     const { report_date, report_template_id, name } = payload
     const date = moment(report_date).format('YYYY:MM:DD h:mm:ss', 'LL')
     const data = {
@@ -189,6 +196,7 @@ export const addReport = payload => {
     try {
       return new Promise((resolve, reject) => {
         createReport(data).then(result => {
+          dispatch(loadingReport(false))
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -201,6 +209,7 @@ export const addReport = payload => {
         })
       })
     } catch (error) {
+      dispatch(loadingReport(false))
       dispatch(errorReport(error.message))
     }
   }
@@ -208,7 +217,7 @@ export const addReport = payload => {
 
 export const updateReport = (id, payload) => {
   return dispatch => {
-    dispatch(loadingReport)
+    dispatch(loadingReport(true))
     const { report_date, report_template_id, name } = payload
     const date = moment(report_date).format('YYYY:MM:DD h:mm:ss')
     const data = {
@@ -220,6 +229,7 @@ export const updateReport = (id, payload) => {
     try {
       return new Promise((resolve, reject) => {
         patchReport(id, data).then(result => {
+          dispatch(loadingReport(false))
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -232,6 +242,7 @@ export const updateReport = (id, payload) => {
         })
       })
     } catch (error) {
+      dispatch(loadingReport(false))
       dispatch(errorReport(error.message))
     }
   }
@@ -239,10 +250,11 @@ export const updateReport = (id, payload) => {
 
 export const deleteReport = id => {
   return dispatch => {
-    dispatch(loadingReport)
+    dispatch(loadingReport(true))
     try {
       return new Promise((resolve, reject) => {
         destroyReport(id).then(result => {
+          dispatch(loadingReport(false))
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -254,6 +266,7 @@ export const deleteReport = id => {
         })
       })
     } catch (error) {
+      dispatch(loadingReport(false))
       dispatch(errorReport(error.message))
     }
   }
@@ -261,10 +274,11 @@ export const deleteReport = id => {
 
 export const addIndicatorValue = payload => {
   return dispatch => {
+    dispatch(loadingReport(true))
     try {
       return new Promise((resolve, reject) => {
         createIndicatorValue(payload).then(result => {
-          console.log('RESULT', result)
+          dispatch(loadingReport(false))
           const { data } = result
           const { meta } = data
           if (meta.success !== true) {
@@ -277,7 +291,7 @@ export const addIndicatorValue = payload => {
         })
       })
     } catch (error) {
-      console.log('RESULT', error)
+      dispatch(loadingReport(false))
       dispatch(errorReport(error.message))
     }
   }

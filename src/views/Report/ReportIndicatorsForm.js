@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Col, Row, Form, Input, Button, Alert } from 'antd'
 
+import Loading from '../Loading'
+
 const formItemLayout = {}
 
 const tailFormItemLayout = {
@@ -60,6 +62,17 @@ class ReportForm extends Component {
     const { loading, error, itemData } = this.props
     const { indicators, status } = itemData || []
     const statusReport = status === 1 ? false : true
+
+    if (!error && loading && indicators && indicators.length === 0) {
+      return (
+        <Row>
+          <Col span={12} offset={8}>
+            <span>Tidak ada indicator di laporan ini</span>
+          </Col>
+        </Row>
+      )
+    }
+
     return (
       <div className="animated fadeIn">
         <Card title="Form Report">
@@ -116,7 +129,7 @@ class ReportForm extends Component {
               ) : (
                 <Row>
                   <Col span={12} offset={8}>
-                    <span>Tidak ada indicator di laporan ini</span>
+                    <span>Menyiapkan data...</span>
                   </Col>
                 </Row>
               )}
