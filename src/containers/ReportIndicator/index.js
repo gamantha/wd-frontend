@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchReportById, addIndicatorValue } from '../../store/report/report.actions'
 
+import Loading from '../../views/Loading'
+
 class Report extends Component {
   constructor(props) {
     super(props)
@@ -13,6 +15,7 @@ class Report extends Component {
     this.state = {
       showForm: false,
       itemData: null,
+      isLoading: true,
     }
 
     this.handleBack = this.handleBack.bind(this)
@@ -57,9 +60,10 @@ class Report extends Component {
     this.props
       .fetchReportById(params.id)
       .then(res => {
-        console.log(res, 'report indicators fetched')
+        this.setState({ isLoading: false })
       })
       .catch(err => {
+        this.setState({ isLoading: false })
         notification['warning']({
           message: 'Warning',
           description: 'There are some problem when fetching the data, please refresh your browser',
@@ -69,10 +73,20 @@ class Report extends Component {
 
   render() {
     const {
-      indicators: { data },
-    } = this.props
+      props: {
+        indicators: { data },
+      },
+      state: { isLoading },
+    } = this
 
-    console.log('indicators', data)
+    if (isLoading) {
+      return (
+        <div className="text-center">
+          <Loading />
+          <p>Mohon bersabar, konten sedang disiapkan!</p>
+        </div>
+      )
+    }
     return (
       <ReportForm
         itemData={data}
@@ -84,7 +98,6 @@ class Report extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('STATE', state)
   return {
     indicators: state.report.reportId || [],
   }
