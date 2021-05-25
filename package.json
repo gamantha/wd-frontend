@@ -24,7 +24,7 @@
     "antd": "^3.10.3",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
-    "browserslist": "^4.5.5",
+    "browserslist": "^4.16.5",
     "chart.js": "^2.7.2",
     "classnames": "^2.2.6",
     "core-js": "^2.5.7",
